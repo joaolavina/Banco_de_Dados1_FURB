@@ -1,0 +1,85 @@
+	CREATE TABLE Marca
+(
+	cd_marca INTEGER PRIMARY KEY,
+	ds_marca VARCHAR(30)
+);
+
+CREATE TABLE Modelo
+(
+	cd_modelo INTEGER PRIMARY KEY,
+	ds_modelo VARCHAR(30),
+	cd_marca INTEGER REFERENCES Marca(cd_marca)
+);
+
+CREATE TABLE Combustivel
+(
+	cd_combustivel INTEGER PRIMARY KEY,
+	ds_combustivel VARCHAR(30)
+);
+
+CREATE TABLE Localidade
+(
+	cd_localidade INTEGER PRIMARY KEY,
+	nm_localidade VARCHAR(50)
+);
+
+CREATE TABLE Proprietario
+(
+	cd_proprietario INTEGER PRIMARY KEY,
+	nm_proprietario INTEGER,
+	ds_logradouro VARCHAR(50),
+	ds_complemento VARCHAR(50),
+	ds_bairro VARCHAR(50),
+	nr_bairro VARCHAR(15),
+	ds_email VARCHAR(50),
+	sg_uf CHAR(2),
+	cd_localidade INTEGER REFERENCES Localidade(cd_localidade)
+);
+
+CREATE TABLE Veiculo
+(
+	nr_placa CHAR(7) PRIMARY KEY,
+	nr_ano_fab INTEGER,
+	nr_ano_mod INTEGER,
+	qt_km_rodado INTEGER,
+	qt_portas INTEGER,
+	ds_observacao VARCHAR(100),
+	cd_proprietario INTEGER REFERENCES Proprietario(cd_proprietario),
+	cd_modelo INTEGER REFERENCES Modelo(cd_modelo)
+);
+
+CREATE TABLE Veiculo_Combustivel
+(
+	cd_combustivel INTEGER REFERENCES Combustivel(cd_combustivel),
+	nr_placa CHAR(7) REFERENCES Veiculo(nr_placa)
+);
+
+CREATE TABLE Cor
+(
+	cd_cor INTEGER PRIMARY KEY,
+	ds_cor VARCHAR(30)
+);
+
+ALTER TABLE Veiculo
+	ADD COLUMN cd_cor INTEGER REFERENCES Cor(cd_cor);
+	
+ALTER TABLE Veiculo_Combustivel
+	ADD PRIMARY KEY (cd_combustivel,nr_placa);
+	
+CREATE TABLE Acessorio
+(
+	cd_acessorio INTEGER PRIMARY KEY,
+	ds_acessorio VARCHAR(50)
+);
+
+CREATE TABLE Veiculo_Acessorio
+(
+	nr_placa CHAR(7) REFERENCES Veiculo(nr_placa),
+	cd_acessorio INTEGER REFERENCES Acessorio(cd_acessorio)
+);
+
+ALTER TABLE Veiculo_Acessorio
+	ADD PRIMARY KEY(nr_placa,cd_acessorio);
+
+// ADD FOREIGN KEY (cd_proprietario) references proprietario(cd_proprietario)
+// PRIMARY KEY(X,Y);

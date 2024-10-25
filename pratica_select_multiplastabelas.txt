@@ -1,0 +1,49 @@
+SELECT p.nm_proprietario, l.nm_localidade 
+FROM proprietario p, localidade l
+ WHERE p.cd_localidade = l.cd_localidade;
+
+SELECT ma.ds_marca, mo.ds_modelo FROM modelo mo, marca ma 
+WHERE ma.ds_marca 
+LIKE 'FIAT';
+
+SELECT ma.ds_marca, mo.ds_modelo 
+FROM modelo mo, marca ma 
+WHERE mo.cd_marca = ma.cd_marca 
+ORDER BY ma.ds_marca, mo.ds_modelo;
+
+SELECT v.nr_placa, v.nr_ano_mod, c.ds_cor 
+FROM veiculo v, cor c 
+WHERE c.cd_cor = v.cd_cor 
+ORDER BY v.nr_ano_mod, c.ds_cor;
+
+SELECT v.nr_placa, p.nm_proprietario, l.nm_localidade, p.sg_uf 
+FROM veiculo v, proprietario p, localidade l 
+WHERE v.cd_proprietario = p.cd_proprietario 
+      AND p.cd_localidade = l.cd_localidade 
+      AND p.sg_uf LIKE 'SC';
+
+
+SELECT v.nr_placa, ma.ds_marca, mo.ds_modelo, v.nr_ano_mod, c.ds_combustivel 
+FROM veiculo v, marca ma, modelo mo, combustivel c, veiculo_combustivel vc 
+WHERE v.cd_modelo = mo.cd_modelo 
+      AND mo.cd_marca = ma.cd_marca 
+      AND vc.nr_placa = v.nr_placa 
+      AND vc.cd_combustivel = c.cd_combustivel;
+
+SELECT v.cd_placa, ma.ds_marca, mo.ds_modelo, a.ds_acessorio 
+FROM veiculo v, marca ma, modelo mo, acessorio a, veiculo_acessorio va, 
+WHERE v.cd_modelo = mo.cd_modelo 
+      AND mo.cd_marca = ma.cd_marca 
+      AND va.nr_placa = v.nr_placa 
+      AND va.cd_acessorio = a.cd_acessorio 
+      AND a.ds_acessorio LIKE 'Direção hidráulica';
+
+SELECT v.cd_placa, ma.ds_marca, mo.ds_modelo, c.ds_cor, v.nr_ano_mod, v.nr_ano_fab, v.qt_km_rodado, v.qt_portas, a.ds_acessorio, comb.ds_combustivel 
+FROM veiculo v, marca ma, modelo mo, cor c, acessorio a, veiculo_acessorio va, veiculo_combustivel vc, combustivel comb 
+WHERE v.cd_modelo = mo.cd_modelo 
+      AND mo.cd_marca = ma.cd_marca 
+      AND v.cd_cor = c.cd_cor 
+      AND v.nr_placa = va.nr_placa 
+      AND va.cd_acessorio = a.cd_acessorio
+      AND vc.nr_placa = v.nr_placa 
+      AND va.cd_combustivel = c.cd_combustivel;

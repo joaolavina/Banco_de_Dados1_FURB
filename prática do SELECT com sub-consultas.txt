@@ -1,0 +1,55 @@
+-- Listar a descrição da(s) cor(es) cadastrada(s) na base e que não apresenta nenhum veículo cadastrado
+SELECT cd_cor, ds_cor
+FROM Cor		
+WHERE cd_cor <> ALL (SELECT cd_cor
+							FROM veiculo)
+
+-- Listar a placa e a descrição do modelo do(s) veículo(s) mais novo(s) cadastrado(s) - considerar o ano modelo
+SELECT v.nr_placa, m.ds_modelo, v.nr_ano_mod
+FROM veiculo v, modelo m
+WHERE m.cd_modelo = v.cd_modelo
+		AND v.nr_ano_mod =  (SELECT MAX(nr_ano_mod)
+							FROM veiculo)
+							
+-- Listar a descrição do(s) modelo(s) que possui(em) o maior número de veículos cadastrado
+SELECT m.cd_modelo, m.ds_modelo
+FROM modelo m, veiculo v
+WHERE m.cd_modelo = v.cd_modelo
+GROUP BY m.ds_modelo
+HAVING COUNT(*) =  
+	(SELECT COUNT(*) AS total_veiculos
+	FROM modelo m, veiculo v 
+	WHERE m.cd_modelo = v.cd_modelo
+	GROUP BY m.cd_modelo
+	ORDER BY total_veiculos DESC LIMIT 1)
+										
+-- Listar a descrição da marca que possui o menor número de modelos cadastrados
+SELECT COUNT(*), ma.ds_marca
+FROM marca ma JOIN modelo mo ON (ma.cd_marca = mo.cd_marca)
+GROUP BY ma.ds_marca
+HAVING COUNT(*) = 
+	(SELECT COUNT(*) AS total_modelos
+	FROM modelo mo JOIN marca ma ON (mo.cd_marca= ma.cd_marca)
+	GROUP BY ma.cd_marca
+	ORDER BY total_modelos LIMIT 1)
+	
+ -- Listar a descrição do acessório mais popular (que mais é encontrado) entre os veículos fabricados. 
+ -- Atenção, pois poderá haver mais de um acessório ranqueado com mais...	
+SELECT a.ds_acessorio AS 'acessorio', COUNT(va.nr_placa) as qtde_x_apar
+FROM acessorio a JOIN veiculo_acessorio va ON (a.cd_acessorio  = va.cd_acessorio)
+GROUP BY a.cd_acessorio
+HAVING COUNT(va.nr_placa) >= ALL 
+	(SELECT COUNT(*) AS qtacessorios
+	FROM acessorio a JOIN veiculo_acessorio va ON (a.cd_acessorio = va.cd_acessorio)
+	GROUP BY a.cd_acessorio);
+
+-- f) Listar qual(is) acessórios não estão associados a veículos fabricados anterior ao ano de 2017;
+SELECT cd_acessorio, ds_acessorio
+FROM acessorio 
+WHERE cd_acessorio NOT IN
+	(SELECT a.cd_acessorio
+	FROM acessorio a 
+		JOIN veiculo_acessorio va ON (a.cd_acessorio = va.cd_acessorio)
+		JOIN veiculo v ON (va.nr_placa = v.nr_placa)
+	WHERE v.nr_ano_fab < 2017)
+

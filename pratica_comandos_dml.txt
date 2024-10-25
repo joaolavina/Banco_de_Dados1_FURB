@@ -1,0 +1,123 @@
+INSERT INTO combustivel(cd_combustivel, ds_combustivel)
+VALUES (1, 'Comum'),
+(2, 'Aditivada'),
+(3, 'Diesel'),
+(4, 'Etanol'),
+(5, 'GNV'),
+(6, 'Comum'),
+(7, 'Premium')
+
+INSERT INTO cor(cd_cor, ds_cor)
+VALUES(1,'Amarelo'),
+(2,'Vermelho'),
+(3,'Azul'),
+(4,'Laranja'),
+(5,'Preto'),
+(6,'Cinza'),
+(7,'Branco'),
+(8,'Marrom'),
+(9,'Verde'),
+(10,'Ciano');
+
+INSERT INTO marca(cd_marca, ds_marca)
+VALUES(1,'Toyota'),
+(2,'Chevrolet'),
+(3,'Honda'),
+(4,'Ford'),
+(5,'Volkswagem'),
+(6,'Fiat'),
+(7,'BMW'),
+(8,'Audi'),
+(9,'Citroen'),
+(10,'Peugeot');
+
+INSERT INTO localidade(cd_localidade, nm_localidade)
+VALUES(1, 'Blumenau'),
+(2, 'Massaranduba'),
+(3, 'Gaspar'),
+(4, 'Rio Branco'),
+(5, 'Pindamonhangaba'),
+(6, 'Jaraguá do Sul'),
+(7, 'Anta Gorda'),
+(8, 'Porto Alegre'),
+(9, 'Taió'),
+(10, 'Feliz'),
+(11, 'Jardim de Piranhas');
+
+INSERT INTO acessorio (cd_acessorio,ds_acessorio)
+VALUES (1, 'GPS'),
+(2, 'Suporte de Celular'),
+(3, 'Piloto Automático'),
+(4, 'Sensor de Estacionamento'),
+(5, 'Suporte de Bicicleta'),
+(6, 'Aromatizante de Carro'),
+(7, 'Carregador de Celular'),
+(8, 'Cadeira de Carro Infantil'),
+(9, 'Tapete'),
+(10, 'Ar-Condicionado');
+
+ALTER TABLE proprietario
+ADD COLUMN nr_telefone VARCHAR(15)
+
+ALTER TABLE proprietario
+MODIFY nm_proprietario VARCHAR(50);
+
+INSERT INTO proprietario (cd_proprietario,cd_localidade,nm_proprietario,ds_logradouro,ds_complemento,ds_bairro,nr_telefone,ds_email,sg_uf)
+VALUES(1, 11, 'Eduardo', 'Rua Duque de Caxias', 420, 'Centro', 9851238452, 'eduardo@email.com', 'RN'),
+(2, 4, 'Márcia', 'Rua Fariz Zaire', 140,'Castelo Branco', 9963111547, 'marcia@email.com', 'AC'),
+(3, 1, 'Otto', 'Rua Antônio da Veiga', 440, 'Itoupava Seca', 33226986, 'otto@email.com', 'SC'),
+(4, 9, 'Eduarda', 'Rua Tiradentes', 662,'Centro', 952311874, 'eduarda@email.com', 'SC'),
+(5, 10, 'Gabriel', 'Rua Flôres da Cunha', 123, 'Centro', 365214879, 'gabriel@email.com', 'RS'),
+(6, 7, 'João', 'Rua Dr Campos', 481, 'Água Verde', 333339999, 'joao@email.com', 'RS'),
+(7, 6, 'Thalia', 'Rua Luís Rosa', 189, 'Barra do Rio Cerro', 1234566789, 'thalia@email.com', 'SC'),
+(8, 8, 'Giovanna', 'Avenida Praia de Belas', 1181,'Praia de Belas', 9876654321, 'giovanna@email.com', 'RS'),
+(9, 2, 'Rebeca', 'Rua Helga Guesser', 457,'Centro', 998877654321, 'rebeca@email.com', 'SC'),
+(10, 3, 'Renato', 'Avenida Frei Godofredo', 1470,'Santa Terezinha', 987665544332211, 'renato@email.com', 'SC');
+
+INSERT INTO modelo (cd_modelo, cd_marca, ds_modelo)
+VALUES(1, 1, 'Corolla'),
+(2, 2, 'Onix'),
+(3, 3, 'HR-V'),
+(4, 4, 'Maverick'),
+(5, 5, 'Ranger'),
+(6, 6, 'Uno'),
+(7, 7, 'X6'),
+(8, 8, 'A3'),
+(9, 9, 'C3'),
+(10, 10, '208');
+
+INSERT INTO veiculo(nr_placa,cd_cor,cd_proprietario,cd_modelo,nr_ano_fab,qt_km_rodado,qt_portas,ds_observacao)
+VALUES('OMK1234',4,1,7,1998,2,3,'Farol não funciona'),
+('ULA8746',1,2,8,2024,856,2,'Em perfeito estado'),
+('1234567',9,3,9,2023,1000589,8,'Volante no banco do passageiro'),
+('ABCDEFG',10,4,1,1964,300000000,1,'Sem observações'),
+('RWT5647',2,5,2,1999,30,4,'Sem observações'),
+('123ABCD',3,6,3,2007,222222,4,'Sem observações'),
+('A1B2C3D',4,7,4,2002,12910,2,'Carro com dívidas atrasadas'),
+('847LUFB',5,8,5,1541,10,10,'Banco faltando'),
+('ZXY4231',6,9,6,1984,845962,4,'Sem janela'),
+('785HJKL',7,10,10,2005,2005,4,'Freio estragou');
+
+INSERT INTO veiculo_combustivel (cd_combustivel, nr_placa)
+VALUES (6,'OMK1234'),
+(1,'ULA8746'),
+(7,'1234567'),
+(2,'ABCDEFG'),
+(5,'RWT5647'),
+(3,'123ABCD'),
+(4,'A1B2C3D'),
+(1,'847LUFB'),
+(2,'ZXY4231'),
+(3,'785HJKL');
+
+INSERT INTO veiculo_acessorio (cd_acessorio, nr_placa)
+VALUES (10,'OMK1234'),
+(1,'ULA8746'),
+(9,'1234567'),
+(2,'ABCDEFG'),
+(8,'RWT5647'),
+(3,'123ABCD'),
+(7,'A1B2C3D'),
+(4,'847LUFB'),
+(6,'ZXY4231'),
+(5,'785HJKL');

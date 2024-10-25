@@ -1,0 +1,54 @@
+create table produto
+(cd_produto integer auto_increment,
+nm_produto varchar(50) not null,
+vl_custo decimal(8,2) default 0.0,
+vl_venda decimal(8,2) default 0.0,
+qt_estoque integer,
+primary key (cd_produto),
+constraint produto_nm_produto_uk unique key (nm_produto)
+);
+
+-- inserindo um registro na tabela sem especificar as colunas
+INSERT INTO produto VALUES(1,'Produto 1', 1.99, 2.99, 1000);
+-- inserindo um registro na tabela especificando as colunas
+INSERT INTO produto (nm_produto,vl_custo,qt_estoque)
+				VALUES ('Produto 2', 2.99, 2000);
+-- inserindo um registro na tabela especificando as colunas e null
+INSERT INTO produto (nm_produto,vl_custo,vl_venda,qt_estoque)
+				VALUES ('Produto 3', NULL, 3.99, NULL);
+
+-- selecionar todas as colunas/linhas da tabela
+SELECT * FROM produto				
+
+-- alterando o valor de uma coluna
+UPDATE produto
+SET vl_custo = 3.99
+WHERE cd_produto = 4;
+
+-- excluindo um registro de uma tabela
+DELETE FROM produto
+WHERE cd_produto = 4;
+
+-- alterando a regra de obrigatoriedade de uma coluna
+ALTER TABLE produto
+MODIFY COLUMN nm_produto VARCHAR(50) NULL;
+
+INSERT INTO produto (vl_custo) VALUES (1);
+
+-- mostra os tipos do produto
+DESC produto
+
+-- vai deletar todos os dados
+DELETE FROM produto
+
+-- criando uma tabela a partir de outra
+CREATE TABLE produto2
+AS
+	SELECT *
+	FROM produto
+	WHERE 1 = 0;
+	
+SELECT * FROM produto2
+
+INSERT INTO produto2
+SELECT * FROM produto;

@@ -1,0 +1,74 @@
+CREATE TABLE censura(
+cd_censura INTEGER PRIMARY KEY,
+ds_censura VARCHAR(30)
+);
+
+CREATE TABLE genero(
+cd_genero INTEGER PRIMARY KEY,
+ds_genero VARCHAR(30)
+);
+
+CREATE TABLE ator(
+cd_ator INTEGER PRIMARY KEY,
+nm_ator VARCHAR(50) UNIQUE NOT NULL
+);
+
+CREATE TABLE filme(
+cd_filme INTEGER PRIMARY KEY,
+cd_censura INTEGER REFERENCES censura(cd_censura),
+cd_genero INTEGER REFERENCES genero(cd_genero),
+nm_filme VARCHAR(50)	UNIQUE NOT NULL,
+ds_sinopse VARCHAR(250),
+nr_duracao VARCHAR(20), 
+dt_lancamento DATE,
+fl_dublado CHAR(1)
+);
+
+CREATE TABLE filme_ator(
+cd_filme INTEGER REFERENCES filme(cd_filme),
+cd_ator INTEGER REFERENCES ator(cd_ator)
+);
+
+INSERT INTO censura VALUES
+(1, 'Livre'),
+(2, '+13'),
+(3, '+18');
+
+INSERT INTO genero VALUES
+(1, 'Aventura'),
+(2, 'Romance'),
+(3, 'Terror');
+
+INSERT INTO ator VALUES
+(1, 'Nicholas Cage'),
+(2, 'Winona Ryder'),
+(3, 'Keanu Reeves'),
+(4, 'Mia Goth'),
+(5, 'Al Pacino');
+
+INSERT INTO filme VALUES
+(1, 1, 2, 'Eduardo, o Filme', 'Eduardo está no filme', '26 horas', '2004-06-24', 'S'),
+(2, 3, 3, 'O maior terror de todos', 'É um filme de terror', '1 hora 26 minutos', '2023-11-07', 'N'),
+(3, 1, 2, 'Um romance romântico de 3 horas e 14 minutos', 'É romântico e dura 3 horas e 14 minutos', '3 horas 14 minutos', '2015-12-08', NULL),
+(4, 2, 1, 'A aventura parte 26', 'A aventura continua (de novo)', '45 minutos', '2023-11-06', 'N'),
+(5, 3, 1, 'Os aventureiros', NULL, '8 horas', '2021-01-01', 'S'),
+(6, 1, 3, 'Jogos Não Mortais', 'Jogos que você não morre', NULL, '2005-01-07', 'N');
+
+INSERT INTO filme_ator VALUES
+(1,2),
+(1,3),
+(1,5),
+(2,4),
+(2,2),
+(3,5),
+(4,1),
+(5,2),
+(6,2),
+(6,4),
+(6,1);
+
+UPDATE Filme SET fl_dublado = 'S' WHERE nr_duracao IS NULL;
+
+SELECT nm_filme, ds_sinopse, nr_duracao, dt_lancamento, fl_dublado FROM filme WHERE dt_lancamento >'2023-01-01'
+
+DELETE FROM filme WHERE ds_sinopse IS NULL;
